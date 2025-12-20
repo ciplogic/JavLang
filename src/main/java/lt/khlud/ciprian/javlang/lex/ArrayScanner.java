@@ -1,8 +1,6 @@
 package lt.khlud.ciprian.javlang.lex;
 
-import lt.khlud.ciprian.javlang.common.ListView;
 import lt.khlud.ciprian.javlang.common.Res;
-import lt.khlud.ciprian.javlang.common.StrView;
 import lt.khlud.ciprian.javlang.lex.common.ITokenProvider;
 import lt.khlud.ciprian.javlang.lex.common.Token;
 
@@ -61,20 +59,8 @@ public class ArrayScanner extends BaseScanner implements ITokenProvider {
             }
             Tokens.add(token.value());
         }
-        TokensArray = getTokensArray(Tokens);
+        TokensArray = ArrayScannerUtils.getTokensArray(Tokens);
     }
 
-    private static Token[] getTokensArray(List<Token> Tokens) {
-        var result = new Token[Tokens.size()];
-        for (int i = 0; i < Tokens.size(); i++) {
-            result[i] = Tokens.get(i);
-        }
-        return result;
-    }
-
-    public void fromTokens(ListView<Token> tokensView) {
-        var tokens = tokensView.toList();
-        TokensArray = getTokensArray(tokens);
-    }
 }
 

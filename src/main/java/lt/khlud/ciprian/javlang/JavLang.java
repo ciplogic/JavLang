@@ -8,6 +8,7 @@ import lt.khlud.ciprian.javlang.common.FileUtils;
 import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.common.StrView;
 import lt.khlud.ciprian.javlang.lex.ArrayScanner;
+import lt.khlud.ciprian.javlang.lex.ArrayScannerUtils;
 import lt.khlud.ciprian.javlang.lex.Scanner;
 import lt.khlud.ciprian.javlang.parse.semantic.CompilationUnit;
 import lt.khlud.ciprian.javlang.parse.semantic.SemanticAstParser;
@@ -37,11 +38,10 @@ public class JavLang {
             var scanner = new Scanner();
             StrView view = StrView.toView(content.value());
             scanner.setCode(view);
-            var tokens = new ArrayScanner();
-            tokens.from(scanner);
+            ArrayScanner arrayScanner = ArrayScannerUtils.from(scanner);
 
             SemanticAstParser semanticParser = new SemanticAstParser();
-            var parsedTree = semanticParser.parse(file, tokens);
+            var parsedTree = semanticParser.parse(file, arrayScanner);
 
             filesMap.put(file, parsedTree);
         }
