@@ -23,8 +23,7 @@ public class AccessorsReader {
         } while (true);
     }
 
-    boolean isAccessor(Token token) {
-
+    private static boolean isAccessor(Token token) {
         if (token.kind() != TokenType.Reserved) {
             return false;
         }

@@ -1,14 +1,11 @@
 package lt.khlud.ciprian.javlang.parse.semantic.declarations;
 
 import lt.khlud.ciprian.javlang.common.Res;
-import lt.khlud.ciprian.javlang.lex.ArrayScanner;
 import lt.khlud.ciprian.javlang.lex.ArrayScannerUtils;
 import lt.khlud.ciprian.javlang.lex.common.Token;
 import lt.khlud.ciprian.javlang.parse.semantic.common.NamedDefinition;
 
 import java.util.ArrayList;
-
-import static lt.khlud.ciprian.javlang.common.ListViewUtilities.toView;
 
 public class EnumDefinition extends NamedDefinition {
     public ArrayList<String> values = new ArrayList<>();
@@ -18,7 +15,7 @@ public class EnumDefinition extends NamedDefinition {
     }
 
     public static Res<EnumDefinition> parseFromTokens(ArrayList<Token> tokens, ArrayList<String> accessorsReader) {
-        var scanner = ArrayScannerUtils.fromTokens(toView(tokens));
+        var scanner = ArrayScannerUtils.scannerOfTokens(tokens);
         var enumName = scanner.advance().value().text();
 
         var result = new EnumDefinition(enumName, accessorsReader);

@@ -4,13 +4,13 @@ import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.common.ITokenProvider;
 import lt.khlud.ciprian.javlang.lex.common.Token;
 import lt.khlud.ciprian.javlang.lex.common.TokenType;
-import lt.khlud.ciprian.javlang.parse.semantic.common.AccessorsReader;
 import lt.khlud.ciprian.javlang.parse.semantic.declarations.EnumDefinition;
 import lt.khlud.ciprian.javlang.parse.semantic.declarations.InterfaceDefinition;
 
 import java.util.ArrayList;
 
 import static lt.khlud.ciprian.javlang.common.ListViewUtilities.toView;
+import static lt.khlud.ciprian.javlang.lex.ArrayScannerUtils.getAccessors;
 
 public class SemanticAstParser {
     public Res<CompilationUnit> parse(String fileName, ITokenProvider tokenProvider) {
@@ -26,8 +26,7 @@ public class SemanticAstParser {
     }
 
     private Res<CompilationUnit> parseTopDefinition(ITokenProvider tokenProvider, CompilationUnit result) {
-        AccessorsReader accessorsReader = new AccessorsReader();
-        Res<ArrayList<String>> accessors = accessorsReader.readAccessors(tokenProvider);
+        Res<ArrayList<String>> accessors = getAccessors(tokenProvider);
         if (accessors.isErr()) {
             return accessors.errOf();
         }

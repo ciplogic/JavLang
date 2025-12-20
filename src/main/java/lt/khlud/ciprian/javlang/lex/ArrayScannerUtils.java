@@ -1,8 +1,9 @@
 package lt.khlud.ciprian.javlang.lex;
 
-import lt.khlud.ciprian.javlang.common.ListView;
 import lt.khlud.ciprian.javlang.common.Res;
+import lt.khlud.ciprian.javlang.lex.common.ITokenProvider;
 import lt.khlud.ciprian.javlang.lex.common.Token;
+import lt.khlud.ciprian.javlang.parse.semantic.common.AccessorsReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +11,16 @@ import java.util.List;
 import static lt.khlud.ciprian.javlang.lex.NotInterestingTokensUtilities.isNotInteresting;
 
 public class ArrayScannerUtils {
-    public static ArrayScanner fromTokens(ListView<Token> tokensView) {
+    public static ArrayScanner scannerOfTokens(ArrayList<Token> tokensView) {
         ArrayScanner scanner = new ArrayScanner();
-        scanner.TokensArray = getTokensArray(tokensView.toList());
+        scanner.TokensArray = getTokensArray(tokensView);
         return scanner;
     }
 
+    public static Res<ArrayList<String>> getAccessors(ITokenProvider tokenProvider){
+        AccessorsReader accessorsReader = new AccessorsReader();
+        return accessorsReader.readAccessors(tokenProvider);
+    }
     public static Token[] getTokensArray(List<Token> Tokens) {
         var result = new Token[Tokens.size()];
         for (int i = 0; i < Tokens.size(); i++) {
