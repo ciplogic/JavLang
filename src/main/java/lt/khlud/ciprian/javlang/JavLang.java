@@ -19,12 +19,20 @@ import java.util.HashMap;
  * @author cipri
  */
 public class JavLang {
-
     public static void main(String[] args) {
-        var files = FileUtils.filesInDir("src", ".java");
+        parseAll();
+        for (var i = 0; i < 10; i++) {
+            var start = System.currentTimeMillis();
+            parseAll();
+            var end = System.currentTimeMillis();
+            System.out.println("Time: " + (end - start) + " ms.");
+        }
+    }
+
+    private static void parseAll() {
+        var files = FileUtils.filesInDir("src/main", ".java");
         var filesMap = new HashMap<String, Res<CompilationUnit>>();
         for (var file : files) {
-            System.out.println(file);
             var content = FileUtils.readFile(file);
             var scanner = new Scanner();
             StrView view = StrView.toView(content.value());
@@ -36,7 +44,6 @@ public class JavLang {
             var parsedTree = semanticParser.parse(file, tokens);
 
             filesMap.put(file, parsedTree);
-
         }
     }
 }

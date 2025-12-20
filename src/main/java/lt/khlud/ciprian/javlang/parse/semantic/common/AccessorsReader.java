@@ -1,4 +1,4 @@
-package lt.khlud.ciprian.javlang.parse.semantic;
+package lt.khlud.ciprian.javlang.parse.semantic.common;
 
 import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.common.ITokenProvider;

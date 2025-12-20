@@ -1,8 +1,9 @@
-package lt.khlud.ciprian.javlang.parse.semantic;
+package lt.khlud.ciprian.javlang.parse.semantic.declarations;
 
 import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.ArrayScanner;
 import lt.khlud.ciprian.javlang.lex.common.Token;
+import lt.khlud.ciprian.javlang.parse.semantic.common.NamedDefinition;
 
 import java.util.ArrayList;
 
@@ -11,17 +12,17 @@ import static lt.khlud.ciprian.javlang.common.ListViewUtilities.toView;
 public class EnumDefinition extends NamedDefinition {
     public ArrayList<String> values = new ArrayList<>();
 
-    public EnumDefinition(String name) {
-        super(name);
+    public EnumDefinition(String name, ArrayList<String> accessorsReader) {
+        super(name, accessorsReader);
     }
 
-    public static Res<EnumDefinition> parseFromTokens(ArrayList<Token> tokens) {
+    public static Res<EnumDefinition> parseFromTokens(ArrayList<Token> tokens, ArrayList<String> accessorsReader) {
         var scanner = new ArrayScanner();
         var tokensView = toView(tokens);
         scanner.fromTokens(tokensView);
         var enumName = scanner.advance().value().text();
 
-        var result = new EnumDefinition(enumName) ;
+        var result = new EnumDefinition(enumName, accessorsReader);
 
         if (!scanner.advanceIf("{").value()) {
             return Res.err("Expected '{' after enum name");

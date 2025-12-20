@@ -20,7 +20,7 @@ public class LexUtils {
     public static int matchAll(StrView text, IMatchChar matchChar) {
         for (int i = 0; i < text.length(); i++) {
             char c = text.get(i);
-            if (!matchChar.matches(c)) {
+            if (!matchChar.test(c)) {
                 return i;
             }
         }
@@ -28,10 +28,10 @@ public class LexUtils {
     }
 
     public static int matchRulesLength(StrView text, IMatchChar firstMatch, IMatchChar matchChar) {
-        if (!firstMatch.matches(text.get(0))) return 0;
+        if (!firstMatch.test(text.get(0))) return 0;
         for (int i = 1; i < text.length(); i++) {
             char c = text.get(i);
-            if (!matchChar.matches(c)) {
+            if (!matchChar.test(c)) {
                 return i;
             }
         }

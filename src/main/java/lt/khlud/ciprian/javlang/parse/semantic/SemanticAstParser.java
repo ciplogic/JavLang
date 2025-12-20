@@ -4,6 +4,9 @@ import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.common.ITokenProvider;
 import lt.khlud.ciprian.javlang.lex.common.Token;
 import lt.khlud.ciprian.javlang.lex.common.TokenType;
+import lt.khlud.ciprian.javlang.parse.semantic.common.AccessorsReader;
+import lt.khlud.ciprian.javlang.parse.semantic.declarations.EnumDefinition;
+import lt.khlud.ciprian.javlang.parse.semantic.declarations.InterfaceDefinition;
 
 import java.util.ArrayList;
 
@@ -19,13 +22,16 @@ public class SemanticAstParser {
         Res<Boolean> checkImport = CheckImports(tokenProvider, result);
         if (checkImport.isErr()) return checkImport.errOf();
 
-        AccessorsReader accessorsReader = new AccessorsReader();
-        Res<ArrayList<String>> accessors = accessorsReader.readAccessors(tokenProvider);
-
         return parseTopDefinition(tokenProvider, result);
     }
 
     private Res<CompilationUnit> parseTopDefinition(ITokenProvider tokenProvider, CompilationUnit result) {
+        AccessorsReader accessorsReader = new AccessorsReader();
+        Res<ArrayList<String>> accessors = accessorsReader.readAccessors(tokenProvider);
+        if (accessors.isErr()) {
+            return accessors.errOf();
+        }
+
         var currentToken2 = tokenProvider.advance();
         if (currentToken2.value().kind() != TokenType.Reserved) {
             return Res.err("Expected reserved token");
@@ -33,18 +39,48 @@ public class SemanticAstParser {
 
         switch (currentToken2.value().text()) {
             case "enum":
-                return parseEnumDefinition(tokenProvider, result);
+                return parseEnumDefinition(tokenProvider, result, accessors.value());
+            case "interface":
+                return parseInterfaceDefinition(tokenProvider, result, accessors.value());
+            case "record":
+                return parseRecordDefinition(tokenProvider, result, accessors.value());
             default:
                 return Res.err("Unexpected token: " + currentToken2.value().text());
         }
     }
 
-    private Res<CompilationUnit> parseEnumDefinition(ITokenProvider tokenProvider, CompilationUnit result) {
+    private Res<CompilationUnit> parseInterfaceDefinition(ITokenProvider tokenProvider, CompilationUnit result, ArrayList<String> accessorsReader) {
         var tokensResult = tokenProvider.readUntil("}");
         if (tokensResult.isErr()) {
             return tokensResult.errOf();
         }
-        var enumDefinitionResult = EnumDefinition.parseFromTokens(tokensResult.value());
+        var enumDefinitionResult = InterfaceDefinition.parseFromTokens(tokensResult.value(), accessorsReader);
+        if (enumDefinitionResult.isErr()) {
+            return enumDefinitionResult.errOf();
+        }
+        result.addInterfaceDefinition(enumDefinitionResult.value());
+        return Res.ok(result);
+    }
+
+    private Res<CompilationUnit> parseRecordDefinition(ITokenProvider tokenProvider, CompilationUnit result, ArrayList<String> accessorsReader) {
+        var tokensResult = tokenProvider.readUntil("}");
+        if (tokensResult.isErr()) {
+            return tokensResult.errOf();
+        }
+        var enumDefinitionResult = EnumDefinition.parseFromTokens(tokensResult.value(), accessorsReader);
+        if (enumDefinitionResult.isErr()) {
+            return enumDefinitionResult.errOf();
+        }
+        result.addEnumDefinition(enumDefinitionResult.value());
+        return Res.ok(result);
+    }
+
+    private Res<CompilationUnit> parseEnumDefinition(ITokenProvider tokenProvider, CompilationUnit result, ArrayList<String> accessorsReader) {
+        var tokensResult = tokenProvider.readUntil("}");
+        if (tokensResult.isErr()) {
+            return tokensResult.errOf();
+        }
+        var enumDefinitionResult = EnumDefinition.parseFromTokens(tokensResult.value(), accessorsReader);
         if (enumDefinitionResult.isErr()) {
             return enumDefinitionResult.errOf();
         }
