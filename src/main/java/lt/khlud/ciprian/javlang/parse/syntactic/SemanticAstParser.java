@@ -1,11 +1,11 @@
-package lt.khlud.ciprian.javlang.parse.semantic;
+package lt.khlud.ciprian.javlang.parse.syntactic;
 
 import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.common.ITokenProvider;
 import lt.khlud.ciprian.javlang.lex.common.Token;
 import lt.khlud.ciprian.javlang.lex.common.TokenType;
-import lt.khlud.ciprian.javlang.parse.semantic.declarations.EnumDefinition;
-import lt.khlud.ciprian.javlang.parse.semantic.declarations.InterfaceDefinition;
+import lt.khlud.ciprian.javlang.parse.syntactic.declarations.EnumDefinition;
+import lt.khlud.ciprian.javlang.parse.syntactic.declarations.InterfaceDefinition;
 
 import java.util.ArrayList;
 

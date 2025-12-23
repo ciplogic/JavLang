@@ -1,8 +1,8 @@
-package lt.khlud.ciprian.javlang.parse.semantic;
+package lt.khlud.ciprian.javlang.parse.syntactic;
 
-import lt.khlud.ciprian.javlang.parse.semantic.common.NamedDefinition;
-import lt.khlud.ciprian.javlang.parse.semantic.declarations.EnumDefinition;
-import lt.khlud.ciprian.javlang.parse.semantic.declarations.InterfaceDefinition;
+import lt.khlud.ciprian.javlang.parse.syntactic.common.NamedDefinition;
+import lt.khlud.ciprian.javlang.parse.syntactic.declarations.EnumDefinition;
+import lt.khlud.ciprian.javlang.parse.syntactic.declarations.InterfaceDefinition;
 
 import java.util.ArrayList;
 

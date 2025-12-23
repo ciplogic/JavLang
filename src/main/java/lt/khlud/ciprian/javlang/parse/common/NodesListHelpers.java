@@ -7,7 +7,6 @@ import lt.khlud.ciprian.javlang.parse.AstNode;
 import java.util.List;
 
 public final class NodesListHelpers{
-
     public static AstNode[] getAstNodesOfView(ListView<AstNode> firstSection) {
         AstNode[] firstSectionList = new AstNode[firstSection.length()];
         firstSection.toArray(firstSectionList);

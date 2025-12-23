@@ -1,4 +1,4 @@
-package lt.khlud.ciprian.javlang.parse.semantic.common;
+package lt.khlud.ciprian.javlang.parse.syntactic.common;
 
 import java.util.ArrayList;
 

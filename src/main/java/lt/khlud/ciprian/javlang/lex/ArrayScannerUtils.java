@@ -3,7 +3,7 @@ package lt.khlud.ciprian.javlang.lex;
 import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.common.ITokenProvider;
 import lt.khlud.ciprian.javlang.lex.common.Token;
-import lt.khlud.ciprian.javlang.parse.semantic.common.AccessorsReader;
+import lt.khlud.ciprian.javlang.parse.syntactic.common.AccessorsReader;
 
 import java.util.ArrayList;
 import java.util.List;

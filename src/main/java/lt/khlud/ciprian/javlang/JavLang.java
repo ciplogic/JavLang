@@ -5,13 +5,12 @@
 package lt.khlud.ciprian.javlang;
 
 import lt.khlud.ciprian.javlang.common.FileUtils;
-import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.common.StrView;
 import lt.khlud.ciprian.javlang.lex.ArrayScanner;
 import lt.khlud.ciprian.javlang.lex.ArrayScannerUtils;
 import lt.khlud.ciprian.javlang.lex.Scanner;
-import lt.khlud.ciprian.javlang.parse.semantic.CompilationUnit;
-import lt.khlud.ciprian.javlang.parse.semantic.SemanticAstParser;
+import lt.khlud.ciprian.javlang.parse.syntactic.CompilationUnit;
+import lt.khlud.ciprian.javlang.parse.syntactic.SemanticAstParser;
 
 import java.util.HashMap;
 
@@ -32,7 +31,7 @@ public class JavLang {
 
     private static void parseAll() {
         var files = FileUtils.filesInDir("src/main", ".java");
-        var filesMap = new HashMap<String, Res<CompilationUnit>>();
+        var filesMap = new HashMap<String, CompilationUnit>();
         for (var file : files) {
             var content = FileUtils.readFile(file);
             var scanner = new Scanner();
@@ -42,8 +41,12 @@ public class JavLang {
 
             SemanticAstParser semanticParser = new SemanticAstParser();
             var parsedTree = semanticParser.parse(file, arrayScanner);
+            if (parsedTree.isErr()) {
+                System.out.println("Error parsing: " + file + " Error: " + parsedTree.errMessage());
+                continue;
+            }
 
-            filesMap.put(file, parsedTree);
+            filesMap.put(file, parsedTree.value());
         }
     }
 }

@@ -1,9 +1,9 @@
-package lt.khlud.ciprian.javlang.parse.semantic.declarations;
+package lt.khlud.ciprian.javlang.parse.syntactic.declarations;
 
 import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.ArrayScannerUtils;
 import lt.khlud.ciprian.javlang.lex.common.Token;
-import lt.khlud.ciprian.javlang.parse.semantic.common.NamedDefinition;
+import lt.khlud.ciprian.javlang.parse.syntactic.common.NamedDefinition;
 
 import java.util.ArrayList;
 

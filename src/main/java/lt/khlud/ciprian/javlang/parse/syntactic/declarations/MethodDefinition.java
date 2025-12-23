@@ -1,17 +1,20 @@
-package lt.khlud.ciprian.javlang.parse.semantic.declarations;
+package lt.khlud.ciprian.javlang.parse.syntactic.declarations;
 
+import lt.khlud.ciprian.javlang.common.ListView;
 import lt.khlud.ciprian.javlang.common.Res;
 import lt.khlud.ciprian.javlang.lex.ArrayScannerUtils;
 import lt.khlud.ciprian.javlang.lex.common.Token;
-import lt.khlud.ciprian.javlang.parse.semantic.common.NamedDefinition;
+import lt.khlud.ciprian.javlang.parse.syntactic.common.NamedDefinition;
 
 import java.util.ArrayList;
 
+import static lt.khlud.ciprian.javlang.common.ListViewUtilities.toView;
 import static lt.khlud.ciprian.javlang.lex.ArrayScannerUtils.getAccessors;
 
 public class MethodDefinition extends NamedDefinition {
 
-    private ArrayList<String> Variables = new ArrayList<>();
+    public final ArrayList<VarDeclaration> Variables = new ArrayList<>();
+    public TypeDeclaration returnType;
 
     public MethodDefinition(String name, ArrayList<String> accessesList) {
         super(name, accessesList);
@@ -25,10 +28,11 @@ public class MethodDefinition extends NamedDefinition {
             return accessors.errOf();
         }
         var readUntilOpenParen = scanner.readUntil("(");
-        var methodAndReturnTypeTokens = readUntilOpenParen.value();
+        var methodAndReturnTypeTokens = toView(readUntilOpenParen.value());
         var methodName = methodAndReturnTypeTokens.get(readUntilOpenParen.value().size() - 2).text();
-
         var methodDeclaration = new MethodDefinition(methodName, accessors.value());
+        methodDeclaration.returnType = new TypeDeclaration(methodAndReturnTypeTokens.trimEnd(2));
+
         var separators = new ArrayList<String>();
         separators.add(",");
         separators.add(")");
@@ -37,11 +41,17 @@ public class MethodDefinition extends NamedDefinition {
             if (parenTokens.size() < 3) {
                 return Res.ok(methodDeclaration);
             }
-            methodDeclaration.addVariable(parenTokens.get(parenTokens.size() - 2).text());
+            var paramTokensView = toView(parenTokens);
+            methodDeclaration.addVariable(paramTokensView);
         }
     }
 
-    private void addVariable(String varName) {
-        Variables.add(varName);
+    private void addVariable(ListView<Token> varTokens) {
+
+        var variableType = new TypeDeclaration(varTokens.trimEnd(2));
+        String varName = varTokens.get(varTokens.size() - 2).text();
+        var varDeclaration = new VarDeclaration(varName, variableType);
+        Variables.add(varDeclaration);
     }
 }
+

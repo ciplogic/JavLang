@@ -62,7 +62,7 @@ public class FoldParser {
         node.children().addAll(finalList);
     }
 
-    static AstNode buildStatementFromView(ListView<AstNode> nodesList) {
+    private static AstNode buildStatementFromView(ListView<AstNode> nodesList) {
         if (nodesList.isEmpty()) {
             return null;
         }
