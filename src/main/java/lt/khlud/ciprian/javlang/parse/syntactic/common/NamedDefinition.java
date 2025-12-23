@@ -10,4 +10,10 @@ public class NamedDefinition {
 
     public String name;
     private final ArrayList<String> accessesList;
+
+    @Override
+    public String toString() {
+        var clazz = getClass();
+        return clazz.getSimpleName() + " " + name;
+    }
 }

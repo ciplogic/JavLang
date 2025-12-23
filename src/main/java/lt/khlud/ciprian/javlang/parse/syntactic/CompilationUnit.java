@@ -5,6 +5,7 @@ import lt.khlud.ciprian.javlang.parse.syntactic.declarations.EnumDefinition;
 import lt.khlud.ciprian.javlang.parse.syntactic.declarations.InterfaceDefinition;
 
 import java.util.ArrayList;
+import lt.khlud.ciprian.javlang.parse.syntactic.declarations.RecordDefinition;
 
 public class CompilationUnit {
 
@@ -16,11 +17,15 @@ public class CompilationUnit {
         imports.add(importName);
     }
 
-    public void addEnumDefinition(EnumDefinition enumDefinition) {
-        definitions.add(enumDefinition);
+    void addDefinition(NamedDefinition namedDefinition) {
+        definitions.add(namedDefinition);
     }
 
-    public void addInterfaceDefinition(InterfaceDefinition interfaceDefinition) {
-        definitions.add(interfaceDefinition);
+    @Override
+    public String toString() {
+        if (!definitions.isEmpty()){
+            return definitions.get(0).toString();
+        }
+        return super.toString();
     }
 }

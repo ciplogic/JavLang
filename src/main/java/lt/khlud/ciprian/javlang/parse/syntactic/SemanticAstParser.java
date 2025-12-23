@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import static lt.khlud.ciprian.javlang.common.ListViewUtilities.toView;
 import static lt.khlud.ciprian.javlang.lex.ArrayScannerUtils.getAccessors;
+import lt.khlud.ciprian.javlang.parse.syntactic.declarations.RecordDefinition;
 
 public class SemanticAstParser {
     public Res<CompilationUnit> parse(String fileName, ITokenProvider tokenProvider) {
@@ -57,7 +58,7 @@ public class SemanticAstParser {
         if (enumDefinitionResult.isErr()) {
             return enumDefinitionResult.errOf();
         }
-        result.addInterfaceDefinition(enumDefinitionResult.value());
+        result.addDefinition(enumDefinitionResult.value());
         return Res.ok(result);
     }
 
@@ -66,11 +67,11 @@ public class SemanticAstParser {
         if (tokensResult.isErr()) {
             return tokensResult.errOf();
         }
-        var enumDefinitionResult = EnumDefinition.parseFromTokens(tokensResult.value(), accessorsReader);
+        var enumDefinitionResult = RecordDefinition.parseFromTokens(tokensResult.value(), accessorsReader);
         if (enumDefinitionResult.isErr()) {
             return enumDefinitionResult.errOf();
         }
-        result.addEnumDefinition(enumDefinitionResult.value());
+        result.addDefinition(enumDefinitionResult.value());
         return Res.ok(result);
     }
 
@@ -83,7 +84,7 @@ public class SemanticAstParser {
         if (enumDefinitionResult.isErr()) {
             return enumDefinitionResult.errOf();
         }
-        result.addEnumDefinition(enumDefinitionResult.value());
+        result.addDefinition(enumDefinitionResult.value());
         return Res.ok(result);
     }
 
