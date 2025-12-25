@@ -1,4 +1,4 @@
-﻿using SimLang.Lexing;
+﻿namespace SimLang.Lexing.Internal;
 
 internal record LexerRule(
     TokenType Type,

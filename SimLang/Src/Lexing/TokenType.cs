@@ -7,4 +7,9 @@ enum TokenType
     Operators,
     Brace,
     Number,
+    Identifier,
+    Comment,
+    Eoln,
+    Quote,
+    Template
 }
