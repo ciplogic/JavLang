@@ -1,8 +1,10 @@
 // See https://aka.ms/new-console-template for more information
 
-using System.Text;
 using SimLang.Common;
 using SimLang.Lexing;
+using SimLang.SyntaxParser;
+
+namespace SimLang;
 
 class Program
 {
@@ -14,11 +16,12 @@ class Program
             var tokens = FileLexerHelpers.GetTokens(file);
             if (tokens.IsError)
             {
-                
-                    Console.WriteLine($"Lexer error: {tokens.ErrorMessage} for filename {file}");
-                    continue;
-                
+                Console.WriteLine($"Lexer error: {tokens.ErrorMessage} for filename {file}");
+                continue;
             }
+
+            var astParser = new SimpleAstParser();
+            CompilationUnit parsedFile = astParser.Parse(file, tokens.Value);
 
             Console.WriteLine(tokens.Value.Length);
         }

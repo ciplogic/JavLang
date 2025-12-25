@@ -5,11 +5,10 @@ namespace SimLang.Lexing;
 
 public static class FileLexerHelpers
 {
-    internal static Result<Token[]> GetTokens(string filePath, Predicate<Token>? shouldSkip = null)
+    internal static Result<Token[]> GetTokens(string filePath)
     {
-        shouldSkip ??= IsTokenSkippable;
-        List<Token> tokenList = new List<Token>();
         byte[] content = Encoding.UTF8.GetBytes(File.ReadAllText(filePath));
+        List<Token> tokenList = new List<Token>(content.Length >> 3);
 
         Lexer lexer = new Lexer(content);
         do
@@ -27,7 +26,7 @@ public static class FileLexerHelpers
                 break;
             }
 
-            if (shouldSkip(token.Value))
+            if (IsTokenSkippable(token.Value))
             {
                 continue;
             }
@@ -38,7 +37,7 @@ public static class FileLexerHelpers
         return ResultExtensions.Ok(tokenList.ToArray());
     }
 
-    internal static bool IsTokenSkippable(Token token) =>
+    private static bool IsTokenSkippable(Token token) =>
         token.Type switch
         {
             TokenType.Eoln => true,

@@ -2,14 +2,24 @@
 
 internal static class LexerAllRules
 {
-    private static string[] Operators =
+    private static readonly string[] Operators =
     [
-        ";", ":", "{", "}", "[", "]", "(", ")",
-
+        ";", ":",
         ",", "=>", "||", "&&", "<", ">",
         "+=", "++", "+", "-",
         "=", "!", ".", ":", "?"
     ];
+
+    private static readonly string[] Braces =
+    [
+        "{", "}", "[", "]", "(", ")",
+    ];
+
+    private static readonly string[] Reserved =
+    [
+        "public", "private", "internal", "readonly", "static", "class", "struct", "record"
+    ];
+
 
     public static readonly LexerRule[] Rules = BuildRules();
 
@@ -20,7 +30,9 @@ internal static class LexerAllRules
             new(TokenType.Space, MatchSpaces),
             new(TokenType.Eoln, MatchEoln),
             new(TokenType.Comment, MatchComment),
-            new(TokenType.Comment, MatchOperator),
+            new(TokenType.Brace, MatchBrace),
+            new(TokenType.Operator, MatchOperator),
+            new(TokenType.Reserved, MatchReserved),
             new(TokenType.Identifier, MatchIdentifier),
             new(TokenType.Number, MatchNumber),
             new(TokenType.Quote, MatchQuote),
@@ -30,12 +42,26 @@ internal static class LexerAllRules
         return result.ToArray();
     }
 
-    public static int MatchIdentifier(ArraySegment<byte> text)
-    {
-        return text.MatchRulesLength(
+    private static int MatchIdentifier(ArraySegment<byte> text) =>
+        text.MatchRulesLength(
             c => char.IsAsciiLetter((char)c) || c == '_',
             (c) => char.IsLetterOrDigit((char)c) || c == '_' || c == '.'
         );
+
+    private static int MatchReserved(ArraySegment<byte> text)
+    {
+        int lenIdentifier = MatchIdentifier(text);
+        if (lenIdentifier == 0)
+        {
+            return 0;
+        }
+        var lenReserved = LexerRulesUtilities.MatchAnyWord(text, Reserved);
+        if (lenReserved == lenIdentifier)
+        {
+            return lenReserved;
+        }
+
+        return 0;
     }
 
     private static int MatchComment(ArraySegment<byte> text)
@@ -107,8 +133,12 @@ internal static class LexerAllRules
 
     private static int MatchOperator(ArraySegment<byte> text)
     {
-        int matchAnyWord = LexerRulesUtilities.MatchAnyWord(text, Operators);
-        return matchAnyWord;
+        return LexerRulesUtilities.MatchAnyWord(text, Operators);
+    }
+
+    private static int MatchBrace(ArraySegment<byte> text)
+    {
+        return LexerRulesUtilities.MatchAnyWord(text, Braces);
     }
 
     private static int MatchEoln(ArraySegment<byte> text)

@@ -1,15 +1,16 @@
 ﻿namespace SimLang.Lexing;
 
-enum TokenType
+public enum TokenType
 {
     None,
     Space,
-    Operators,
-    Brace,
+    Operator,
     Number,
     Identifier,
     Comment,
     Eoln,
     Quote,
-    Template
+    Template,
+    Reserved,
+    Brace
 }
