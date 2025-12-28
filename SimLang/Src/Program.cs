@@ -11,6 +11,7 @@ class Program
     static void Main(string[] args)
     {
         string[] files = FileUtils.FilesInDir(".", ".cs");
+        Dictionary<string, CompilationUnit> compilationUnits = new Dictionary<string, CompilationUnit>();
         foreach (string file in files)
         {
             var tokens = FileLexerHelpers.GetTokens(file);
@@ -22,6 +23,7 @@ class Program
 
             var astParser = new SimpleAstParser();
             CompilationUnit parsedFile = astParser.Parse(file, tokens.Value);
+            compilationUnits.Add(file, parsedFile);
 
             Console.WriteLine(tokens.Value.Length);
         }

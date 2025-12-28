@@ -8,7 +8,6 @@ class InterfaceRule() : PrefixRule("interface")
     protected override int MatchRemainder(ArraySegment<Token> slice, CompilationUnit compilationUnit,
         Permissions permissions)
     {
-
         return 0;
     }
 }

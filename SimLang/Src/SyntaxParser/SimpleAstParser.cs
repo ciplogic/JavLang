@@ -30,6 +30,7 @@ public class SimpleAstParser
     {
         List<ITokenRuleMatcher> rules =
         [
+            new EnumRule(),
             new InterfaceRule(),
         ];
         return rules.ToArray();

@@ -2,16 +2,16 @@ using System.Text;
 
 namespace SimLang.Common;
 
-public readonly struct U8Str(byte[] _text)
+public readonly struct U8Str(byte[] text)
 {
-    public byte[] Text { get; } = _text;
+    public byte[] Text { get; } = text;
 
     public override string ToString()
         => Encoding.UTF8.GetString(Text);
 
     public static U8Str Empty { get; } = new U8Str([]);
 
-    public override bool Equals(object otherObj)
+    public override bool Equals(object? otherObj)
     {
         if (otherObj is not U8Str other)
         {
@@ -33,10 +33,8 @@ public readonly struct U8Str(byte[] _text)
         return content.ToString() == other;
     }
 
-    public static bool operator !=(U8Str Content, string other)
-    {
-        return !(Content == other);
-    }
+    public static bool operator !=(U8Str content, string other) 
+        => !(content == other);
 
     public static implicit operator U8Str(string text)
         => new(Encoding.UTF8.GetBytes(text));

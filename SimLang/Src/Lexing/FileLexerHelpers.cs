@@ -45,4 +45,7 @@ public static class FileLexerHelpers
             TokenType.Space => true,
             _ => false
         };
+
+    public static ArrayLexer ToArrayLexer(this ArraySegment<Token> readingSegment)
+        => new(readingSegment);
 }

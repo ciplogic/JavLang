@@ -1,0 +1,15 @@
+using SimLang.Common;
+using SimLang.SyntaxParser.Common;
+
+namespace SimLang.SyntaxParser.Declarations;
+
+internal class BaseDeclaration(U8Str name, Permissions permissions)
+{
+    public U8Str Name { get; } = name;
+    public Permissions Permissions { get; } = permissions;
+    public List<BaseDeclaration> Children = [];
+    
+    
+    public override string ToString()
+        => $"{GetType().Name} {Name}";
+}
