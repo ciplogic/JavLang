@@ -2,7 +2,7 @@ using System.Text;
 
 namespace SimLang.Common;
 
-public readonly struct U8Str(byte[] text)
+public readonly struct U8Str(byte[] text) : IEquatable<U8Str>
 {
     public byte[] Text { get; } = text;
 
@@ -17,6 +17,7 @@ public readonly struct U8Str(byte[] text)
         {
             return false;
         }
+
         Span<byte> span1 = Text.AsSpan();
         Span<byte> span2 = other.Text.AsSpan();
         return span1.SequenceEqual(span2);
@@ -33,9 +34,15 @@ public readonly struct U8Str(byte[] text)
         return content.ToString() == other;
     }
 
-    public static bool operator !=(U8Str content, string other) 
+    public static bool operator !=(U8Str content, string other)
         => !(content == other);
 
     public static implicit operator U8Str(string text)
         => new(Encoding.UTF8.GetBytes(text));
+
+    public bool Equals(U8Str other)
+        => Text.AsSpan().SequenceEqual(other.Text.AsSpan());
+
+    public override int GetHashCode()
+        => Text.GetHashCode();
 }

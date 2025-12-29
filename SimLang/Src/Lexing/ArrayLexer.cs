@@ -35,5 +35,9 @@ public class ArrayLexer(ArraySegment<Token> readingSegment)
         return result;
     }
 
-    private void Skip() => ReadingSegment = ReadingSegment.Slice(1);
+    private void Skip()
+        => ReadingSegment = ReadingSegment.Slice(1);
+
+    public override string ToString()
+        => string.Join(" ", ReadingSegment.Select(token => token.Content));
 }
