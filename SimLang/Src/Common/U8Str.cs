@@ -5,6 +5,7 @@ namespace SimLang.Common;
 public readonly struct U8Str(byte[] text) : IEquatable<U8Str>
 {
     public byte[] Text { get; } = text;
+    public int Length => Text.Length;
 
     public override string ToString()
         => Encoding.UTF8.GetString(Text);

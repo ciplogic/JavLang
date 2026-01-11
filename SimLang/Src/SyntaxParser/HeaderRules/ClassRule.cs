@@ -19,6 +19,11 @@ class InterfaceRule() : PrefixRule("interface")
             compilationUnit.AddDeclaration(interfaceDeclaration);
         }
 
+        while (!scanner.AdvanceIf("}"))
+        {
+            InterfaceMethodDeclaration.Match(scanner, interfaceDeclaration);
+        }
+
         var endLen = scanner.Length;
         return startLen - endLen;
     }

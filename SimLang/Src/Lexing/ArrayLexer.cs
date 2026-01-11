@@ -40,4 +40,24 @@ public class ArrayLexer(ArraySegment<Token> readingSegment)
 
     public override string ToString()
         => string.Join(" ", ReadingSegment.Select(token => token.Content));
+
+    public Token[] ReadUntil(string separator)
+    {
+        List<Token> resultList = [];
+        do
+        {
+            var currentToken = Advance();
+            if (currentToken.Content.Length != 0)
+            {
+                resultList.Add(currentToken);
+            }
+
+            if (currentToken.Content == separator || currentToken.Content.Length == 0)
+            {
+                break;
+            }
+        } while (true);
+
+        return resultList.ToArray();
+    }
 }
